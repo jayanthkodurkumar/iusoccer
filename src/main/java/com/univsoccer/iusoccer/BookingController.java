@@ -3,11 +3,16 @@ package com.univsoccer.iusoccer;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -69,8 +74,24 @@ public class BookingController {
 			return ResponseEntity.created(location).body(saveBooking);
 
 		}
+	}
+	
 
-//		return ResponseEntity.ok(user);
+	@GetMapping("/booking")
+	public List<Booking> getAllBooking() {
+		return bookingrepository.findAll();
+	}
+
+	@GetMapping("/booking/{bookingId}")
+	public ResponseEntity<?> retrieveBooking(@PathVariable int bookingId) {
+	    Optional<Booking> booking = bookingrepository.findById(bookingId);
+	    if (booking.isPresent()) {
+	        List<Booking> output = new ArrayList<>();
+	        output.add(booking.get());
+	        return ResponseEntity.ok(output);
+	    } else {
+	        return ResponseEntity.notFound().build();
+	    }
 	}
 
 }
