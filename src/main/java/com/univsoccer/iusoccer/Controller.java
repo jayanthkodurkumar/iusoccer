@@ -32,15 +32,6 @@ public class Controller {
 		return "home";
 	}
 
-	@GetMapping("/admin/home")
-	public String handleAdminHome() {
-		return "admin";
-	}
-
-	@GetMapping("/user/home")
-	public int handleUserHome() {
-		return 1;
-	}
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;

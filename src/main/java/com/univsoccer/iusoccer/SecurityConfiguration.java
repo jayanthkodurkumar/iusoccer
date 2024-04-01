@@ -31,7 +31,6 @@ public class SecurityConfiguration {
 					registry.requestMatchers("/home", "/login", "/register/**").permitAll();
 					registry.requestMatchers("/admin/**").hasRole("ADMIN");
 					registry.requestMatchers("/user/**").hasRole("USER");
-					registry.requestMatchers("/booking/**").hasRole("USER");
 					registry.requestMatchers("/booking/**").hasRole("ADMIN");
 					registry.anyRequest().authenticated();
 				}).build();
