@@ -18,9 +18,13 @@ public class MyUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<MyUser> user = repository.findByUsername(username);
+        
         if (user.isPresent()) {
             var userObj = user.get();
-            System.out.print(userObj);
+            System.out.println();
+//            System.out.println(userObj.getId());
+            System.out.println();
+            System.out.println();
             return User.builder()
                     .username(userObj.getUsername())
                     .password(userObj.getPassword())
@@ -36,5 +40,15 @@ public class MyUserDetailService implements UserDetailsService {
             return new String[]{"ROLE_USER"};
         }
         return user.getRole().split(",");
+    }
+    
+    public Long getUserId(String username) throws UsernameNotFoundException {
+        Optional<MyUser> user = repository.findByUsername(username);
+
+        if (user.isPresent()) {
+            return user.get().getId();
+        } else {
+            throw new UsernameNotFoundException(username);
+        }
     }
 }

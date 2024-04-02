@@ -21,17 +21,20 @@ import com.univsoccer.iusoccer.models.BookingRepository;
 import com.univsoccer.iusoccer.models.MyUser;
 import com.univsoccer.iusoccer.models.MyUserDetailService;
 import com.univsoccer.iusoccer.models.MyUserRepository;
+import com.univsoccer.iusoccer.models.MyUserResponse;
 
 @RestController
 public class Controller {
 	@Autowired
 	private MyUserDetailService userDetailsService;
+	
+	@Autowired
+	private MyUserRepository userrepository;
 
 	@GetMapping("/home")
 	public String home() {
 		return "home";
 	}
-
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -40,8 +43,13 @@ public class Controller {
 	public ResponseEntity<?> handleLogin(@RequestBody MyUser user) {
 		String username = user.getUsername();
 		String password = user.getPassword();
-		System.out.print(username + " " + password);
+
 		UserDetails currentUserInput = userDetailsService.loadUserByUsername(username);
+		
+		
+		
+		
+		
 
 //		if (currentUserInput != null) { // Check if user is present before printing
 //			System.out.print(currentUserInput);
@@ -51,9 +59,11 @@ public class Controller {
 //		}
 
 		if (passwordEncoder.matches(password, currentUserInput.getPassword())) {
-			System.out.print("here");
+            Long userId = userDetailsService.getUserId(username); // Get user ID using separate method
+//            System.out.println("this is " + userId);
 
-			return ResponseEntity.ok(currentUserInput);
+            MyUserResponse response = new MyUserResponse(currentUserInput, userId);
+            return ResponseEntity.ok(response);
 
 		}
 
@@ -63,3 +73,5 @@ public class Controller {
 	}
 
 }
+
+

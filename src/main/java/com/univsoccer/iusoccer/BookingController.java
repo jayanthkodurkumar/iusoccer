@@ -111,7 +111,7 @@ public class BookingController {
 	}
 
 //	delete booking
-	@DeleteMapping("/admin/booking/{bookingId}")
+	@DeleteMapping("/users/booking/{bookingId}")
 	public ResponseEntity<Object> deleteBooking(@PathVariable("bookingId") int bookingId) {
 		Optional<Booking> booking = bookingrepository.findById(bookingId);
 

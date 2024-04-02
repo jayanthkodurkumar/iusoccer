@@ -28,11 +28,11 @@ public class SecurityConfiguration {
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 		return httpSecurity.csrf(AbstractHttpConfigurer::disable).httpBasic(Customizer.withDefaults())
 				.authorizeHttpRequests(registry -> {
-					registry.requestMatchers("/home", "/login", "/register/**").permitAll();
+					registry.requestMatchers("/","/home", "/login", "/register/**").permitAll();
 					registry.requestMatchers("/admin/**").hasRole("ADMIN");
 					registry.requestMatchers("/user/**").hasRole("USER");
 					registry.requestMatchers("/booking/**").hasRole("ADMIN");
-					registry.anyRequest().authenticated();
+					registry.anyRequest().permitAll();
 				}).build();
 	}
 
